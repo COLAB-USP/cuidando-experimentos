@@ -10,7 +10,8 @@ Instale usando Python 2. Acho que não está funcionando no 3. Dependendo da sua
 
 Comandos para distro que use apt-get:
 
-	sudo apt-get install build-essential easy_install
+	sudo apt-get install build-essential easy_install git
+	git clone git@github.com:andresmrm/cuidando2.git
 	sudo easy_install virtualenv
 	virtualenv env
 	source env/bin/activate
