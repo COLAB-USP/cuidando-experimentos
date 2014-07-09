@@ -22,27 +22,62 @@
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
         <link href="css/MarkerCluster.css" rel="stylesheet" />
         <link href="css/MarkerCluster.Default.css" rel="stylesheet" />
-        <link href="css/table.css" rel="stylesheet">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="css/docs.css" rel="stylesheet">
-        <link href="css/l.geosearch.css" rel="stylesheet"/>
+        <link href="css/table.css" rel="stylesheet"/>
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+        <link href="css/docs.css" rel="stylesheet"/>
+	<link href="css/leaflet-search.css" rel="stylesheet" />
 
         <!--Javascript-->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script src="http://code.highcharts.com/highcharts.js"></script>
         <script src="http://code.highcharts.com/modules/exporting.js"></script>
-        <script src="js/l.control.geosearch.js"></script>
-        <script src="js/l.geosearch.provider.openstreetmap.js"></script>
+        <script src="js/leaflet-search.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>	
 
+	
         <!--JQuery-->        
         <script src="js/jquery.csv-0.71.min.js"></script>
 
         <!--Bootstrap-->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/application.js"></script>
+	
+	<style>
+
+	#findpri {
+		background: #eee;
+		border-radius:.125em;
+		border:2px solid #1978cf;
+		box-shadow: 0 0 8px #999;	
+		margin-bottom: 10px;
+		padding: 2px 0;
+		width: 300px;
+		height: 26px;
+	}
+	#findpu {
+		background: #eee;
+		border-radius:.125em;
+		border:2px solid #1978cf;
+		box-shadow: 0 0 8px #999;	
+		margin-bottom: 10px;
+		padding: 2px 0;
+		width: 300px;
+		height: 26px;
+	}
+	.search-tooltip {
+		width: 300px;
+	}
+	.leaflet-control-search .search-cancel {
+		position: static;
+		float: left;
+		margin-left: -22px;
+	}
+
+	</style>
 
     </head>
+
     <body>   
         <?php include("header.inc.php"); ?>
         <div class="container">
@@ -51,19 +86,20 @@
                 <div class="subnav">
                     <ul class="nav nav-pills">
                         <li><a href="#mapa">Mapa</a></li>
-                        <li><a href="#label">Legenda</a></li>
-                        <li><a href="#char">Estatísticas</a></li>
+                        <li><a href="#busca">Legenda</a></li>
+			<li><a href="#busca">Busca</a></li>
+                        <li><a href="#estatistica">Estatísticas</a></li>
                     </ul>
                 </div>
             </header>
 
             <section id="mapa">
-                <div class="page-header" style>
                     <h2>Mapa das Creches</h2>
-                </div>
-                
-                <div id="map" style="width: 1170px; height: 700px"></div>
-			
+		
+		<p align="right">*Os dados foram retirados do site http://dados.gov.br, disponíveis <a href="http://dados.gov.br/dataset/instituicoes-de-ensino-basico/resource/74629e84-a00e-45c0-942d-069201fb65b1">AQUI</a>.</p>
+		<p align="right">Clique na lupa para encontrar um endereço.</p>
+                <div id="map" style="width: 1170px; height: 550px"></div>
+		
                 <script>
 
                     //Icones
@@ -72,38 +108,27 @@
                     $.get("data/creches.csv", function(data) {
                         var creches = $.csv.toArrays(data);
 
-                        var blueIcon = L.Icon.Default.extend({
-                            options: {
-                                iconUrl: 'img/pin-blue.png',
-                                iconSize: [50, 41],
-                                popupAnchor: [15, -41],
-                            }
-                        });
-                        var greenIcon = L.Icon.Default.extend({
-                            options: {
+                  	//icones
+                        var greenIcon = L.icon({
                                 iconUrl: 'img/pin-green.png',
                                 iconSize: [50, 41],
                                 popupAnchor: [15, -41],
-                            }
+                            
                         });
-                        var orangeIcon = L.Icon.Default.extend({
-                            options: {
-                                iconUrl: 'img/pin-orange.png',
+                        var blueIcon = L.icon({
+                                iconUrl: 'img/pin-blue.png',
                                 iconSize: [50, 41],
                                 popupAnchor: [15, -41],
-                            }
+      
                         });
 
-                        var blueIcon = new blueIcon();
-                        var greenIcon = new greenIcon();
-                        var orangeIcon = new orangeIcon();
-
+		
                         //Layers
                         var publica = L.markerClusterGroup();
                         var privada = L.markerClusterGroup();
 
                         //Adiciona Creches e verifica pontos
-
+			
 
                         function popUp(feature, layer) {
                             layer.bindPopup(feature.properties.name);
@@ -115,9 +140,10 @@
 
                                     //Separa as creches
                                     if (a[4] == 'Privada') {
-                                        var marker = L.marker([a[2], a[1]], {icon: greenIcon}).bindPopup(a[3] + "<br>" + "Administração: " + a[4] + "<br>" + "Dependencia Administrativa: " + a[58] + "<br>" + "Tipo: " + a[59] + "<br>" + "Distrito: " + a[6] + "<br>" + "Endereço: " + a[7] + " Nº " + a[8] + "<br>" + "Bairro: " + a[9] + "<br>" + "CEP: " + a[10] + " Telefone: 11 " + a[11] + "<br>" + "Fax: " + a[12] + "<br>" + "e-mail: " + a[13] + "<br>" + "Situação: " + a[14] + "<br>" + " Matriculados: " + a[57] + "<br>" + "Abre aos Finais de semana: " + a[55] + "<br><br>" + "Infraestrutura: " + "<br>" + "Número de Salas: " + a[40] + "<br>" + "Número de Funcionários: " + a[43] + "<br>" + "Acessibilidade: " + a[15] + "<br>" + "Dependencias PNE: " + a[16] + "<br>" + "Sanitário PNE: " + a[17] + "<br>" + "Cozinha: " + a[30] + "<br>" + "Refeitório: " + a[18] + "<br>" + "Despensa: " + a[19] + "<br>" + "Lavanderia: " + a[37] + "<br>" + "Chuveiro: " + a[36] + "Auditorio: " + a[21] + "<br>" + "Laboratório de Informática: " + a[22] + "<br>" + "Laboratório de Ciências: " + a[23] + "<br>" + "Quadra de esportes coberta: " + a[25] + " Descoberta: " + a[26] + "<br>" + "Pátio coberto: " + a[27] + " Descoberto: " + a[28] + "<br>" + "Parque Infantil: " + a[29] + "<br>" + "Biblioteca: " + a[36] + "<br>" + "Berçário: " + a[31] + "<br>" + "Sala de Leitura: " + a[41] + "<br>" + "Area verde: " + a[42] + "Internet: " + a[45] + "<b>" + "TV: " + a[53] + "<br>" + "Multimídia: " + a[52]).addTo(privada);
+				
+                                       L.marker([a[2], a[1]],{icon: greenIcon, title: a[3]}).bindPopup(a[3] + "<br>" + "Administração: " + a[4] + "<br>" + "Dependencia Administrativa: " + a[58] + "<br>" + "Tipo: " + a[59] + "<br>" + "Distrito: " + a[6] + "<br>" + "Endereço: " + a[7] + " Nº " + a[8] + "<br>" + "Bairro: " + a[9] + "<br>" + "CEP: " + a[10] + " Telefone: 11 " + a[11] + "<br>" + "Fax: " + a[12] + "<br>" + "e-mail: " + a[13] + "<br>" + "Situação: " + a[14] + "<br>" + " Matriculados: " + a[57] + "<br>" + "Abre aos Finais de semana: " + a[55] + "<br><br>" + "Infraestrutura: " + "<br>" + "Número de Salas: " + a[40] + "<br>" + "Número de Funcionários: " + a[43] + "<br>" + "Acessibilidade: " + a[15] + "<br>" + "Dependencias PNE: " + a[16] + "<br>" + "Sanitário PNE: " + a[17] + "<br>" + "Cozinha: " + a[30] + "<br>" + "Refeitório: " + a[18] + "<br>" + "Despensa: " + a[19] + "<br>" + "Lavanderia: " + a[37] + "<br>" + "Chuveiro: " + a[36] + "Auditorio: " + a[21] + "<br>" + "Laboratório de Informática: " + a[22] + "<br>" + "Laboratório de Ciências: " + a[23] + "<br>" + "Quadra de esportes coberta: " + a[25] + " Descoberta: " + a[26] + "<br>" + "Pátio coberto: " + a[27] + " Descoberto: " + a[28] + "<br>" + "Parque Infantil: " + a[29] + "<br>" + "Biblioteca: " + a[36] + "<br>" + "Berçário: " + a[31] + "<br>" + "Sala de Leitura: " + a[41] + "<br>" + "Area verde: " + a[42] + "Internet: " + a[45] + "<b>" + "TV: " + a[53] + "<br>" + "Multimídia: " + a[52]).addTo(privada);
                                     } else { //Publica
-                                        var marker = L.marker([a[2], a[1]], {icon: blueIcon}).bindPopup(a[3] + "<br>" + "Distrito: " + a[6] + "<br>" + "Endereço: " + a[7] + " Nº " + a[8] + "<br>" + "Bairro: " + a[9] + "<br>" + "CEP: " + a[10] + " Telefone: 11 " + a[11] + "<br>" + "Fax: " + a[12] + "<br>" + "e-mail: " + a[13] + "<br>" + "Situação: " + a[14] + "<br>" + "Matriculados: " + a[57] + "<br>" + "Abre aos Finais de semana: " + a[55] + "<br><br>" + "Infraestrutura: " + "<br>" + "Número de Salas: " + a[40] + "<br>" + "Número de Funcionários: " + a[43] + "<br>" + "Acessibilidade: " + a[15] + "<br>" + "Dependencias PNE: " + a[16] + "<br>" + "Sanitário PNE: " + a[17] + "<br>" + "Cozinha: " + a[30] + "<br>" + "Refeitório: " + a[18] + "<br>" + "Despensa: " + a[19] + "<br>" + "Lavanderia: " + a[37] + "<br>" + "Chuveiro: " + a[36] + "<br>" + "Auditorio: " + a[21] + "<br>" + "Laboratório de Informática: " + a[22] + "<br>" + "Laboratório de Ciências: " + a[23] + "<br>" + "Quadra de esportes coberta: " + a[25] + " Descoberta: " + a[26] + "<br>" + "Pátio coberto: " + a[27] + " Descoberto: " + a[28] + "<br>" + "Parque Infantil: " + a[29] + "<br>" + "Biblioteca: " + a[36] + "<br>" + "Berçário: " + a[31] + "<br>" + "Sala de Leitura: " + a[41] + "<br>" + "Area verde: " + a[42] + "<br>" + "Internet: " + a[45] + "<br>" + "TV: " + a[53] + "<br>" + "Multimídia: " + a[52]).addTo(publica);
+                                        L.marker([a[2], a[1]], {icon: blueIcon, title: a[3]}).bindPopup(a[3] + "<br>" + "Distrito: " + a[6] + "<br>" + "Endereço: " + a[7] + " Nº " + a[8] + "<br>" + "Bairro: " + a[9] + "<br>" + "CEP: " + a[10] + " Telefone: 11 " + a[11] + "<br>" + "Fax: " + a[12] + "<br>" + "e-mail: " + a[13] + "<br>" + "Situação: " + a[14] + "<br>" + "Matriculados: " + a[57] + "<br>" + "Abre aos Finais de semana: " + a[55] + "<br><br>" + "Infraestrutura: " + "<br>" + "Número de Salas: " + a[40] + "<br>" + "Número de Funcionários: " + a[43] + "<br>" + "Acessibilidade: " + a[15] + "<br>" + "Dependencias PNE: " + a[16] + "<br>" + "Sanitário PNE: " + a[17] + "<br>" + "Cozinha: " + a[30] + "<br>" + "Refeitório: " + a[18] + "<br>" + "Despensa: " + a[19] + "<br>" + "Lavanderia: " + a[37] + "<br>" + "Chuveiro: " + a[36] + "<br>" + "Auditorio: " + a[21] + "<br>" + "Laboratório de Informática: " + a[22] + "<br>" + "Laboratório de Ciências: " + a[23] + "<br>" + "Quadra de esportes coberta: " + a[25] + " Descoberta: " + a[26] + "<br>" + "Pátio coberto: " + a[27] + " Descoberto: " + a[28] + "<br>" + "Parque Infantil: " + a[29] + "<br>" + "Biblioteca: " + a[36] + "<br>" + "Berçário: " + a[31] + "<br>" + "Sala de Leitura: " + a[41] + "<br>" + "Area verde: " + a[42] + "<br>" + "Internet: " + a[45] + "<br>" + "TV: " + a[53] + "<br>" + "Multimídia: " + a[52]).addTo(publica);
                                     }
 
                             }
@@ -132,18 +158,10 @@
                         var map = L.map('map', {
                             center: [-23.58098, -46.61293],
                             zoom: 11,
-                            layers: [minimal, publica, privada]
+                            layers: [minimal]
                         });
                         var distritos = new L.KML("data/distritos.kml", {async: true});
                         map.addLayer(distritos);
-                        
-                        //adiciona busca por endereco
-                        new L.Control.GeoSearch({
-                            provider: new L.GeoSearch.Provider.OpenStreetMap(),
-			    position: 'topright',
-			    showMarker: false
-                        }).addTo(map);
-
 
                         //Adicionado Layers
                         var baseLayers = {
@@ -159,47 +177,101 @@
 
                         L.control.layers(baseLayers, overlays).addTo(map);
 
+			
+
+			map.addControl(new L.Control.Search({wrapper: 'findpri', layer: privada, zoom: 19, initial: false}));
+			map.addControl(new L.Control.Search({wrapper: 'findpu', zoom: 19, layer: publica, initial: false}));
+
+			var geocoder = new google.maps.Geocoder();
+
+			function googleGeocoding(text, callResponse){
+				geocoder.geocode({address: text}, callResponse);
+			}
+
+			function filterJSONCall(rawjson){
+				var json = {},
+				key, loc, disp = [];
+	
+				for(var i in rawjson){
+				key = rawjson[i].formatted_address;
+
+				loc = L.latLng( rawjson[i].geometry.location.lat(), rawjson[i].geometry.location.lng() );
+
+				json[ key ]= loc;	//key,value format
+				}
+				return json;
+			}
+
+			map.addControl(new L.Control.Search({
+				callData: googleGeocoding,
+				filterJSON: filterJSONCall,
+				markerLocation: true,
+				autoType: false,
+				autoCollapse: true,
+				minLength: 2,
+				zoom: 19
+			}));
 
                     });
+		
+		   //Funcao busca da api do google
+		
                 </script>
 
 
             </section>
+	    <section id="busca">
+		  <br>
+		  <br>
+	    	   <table style="width:1170px;" cellpadding="0" cellspacing="0" id="table">
+			<tr>
+	  		 <td style="width:500px;vertical-align:top;" align="center">
+	    			<h2 style="text-align: left">Busque uma creche</h2>
+					<h4 style="text-align: center">Privada</h4>                
+					<div id="findpri"></div>
+					<h4 style="text-align: center">Pública</h4>
+					<div id="findpu"></div>	
+					*Clique na lupa e digite o nome da creche, ela irá aparecer no mapa acima.
+			 </td>
+            	
+                	 <td style="width:500px;vertical-align:left;" align="center">
+                    	 	<h2 style="text-align: left">Legenda dos Marcadores</h2>
+					<br>
+					<br>
+					
+                			<div class="row">
+                    			<div style="width:397px; margin:0 auto;">
+                        		<table id="label" cellspacing="0" cellpadding="0">
+                            			<tr>
+                                			<th scope="col" class="nobg"></th>
+                                			<th scope="col">Significado</th>
+                            			</tr>
 
-            <section id="label">
-                <div class="page-header">
-                    <h2>Legenda dos Marcadores</h2>
-                </div>
-                <div class="row">
-                    <div style="width:397px; margin:0 auto;">
-                        <table id="label" cellspacing="0">
-                            <tr>
-                                <th scope="col" class="nobg"></th>
-                                <th scope="col">Significado</th>
-                            </tr>
+                            			<tr>
+                                			<th scope="row" class="spec" style="text-align: left"><img src="img/pin-green.png" width="22" height="32"></img></th>
+                                			<td>As creches são <b>Conveniadas</b>.</td>
+                            			</tr>
 
-                            <tr>
-                                <th scope="row" class="spec" style="text-align: left"><img src="img/pin-green.png" width="22" height="32"></img></th>
-                                <td>As creches são <b>Conveniadas</b>.</td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row" class="specalt" style="text-align: left"><img src="img/pin-blue.png" width="22" height="32"></img></th>
-                                <td class="alt">As creches são <b>Públicas</b>.</td>
-                            </tr>
+                            			<tr>
+                            				<th scope="row" class="specalt" style="text-align: left"><img src="img/pin-blue.png" width="22" height="32"></img></th>
+                                			<td class="alt">As creches são <b>Públicas</b>.</td>
+                            			</tr>
 
 
-                        </table>
-                    </div>
-                </div>
+                        		</table>
+                    			</div>
+                			</div>
+			</td>
+			</tr>
+
+		</table>		
             </section>
-
-            <section id="char">
-                <div class="page-header">
-                    <h2>Estatísticas</h2>
-                </div>
-                <div class="columns">
-   
+		  
+            <section id="estatistica">
+		<br>
+		<br>
+                  <h2>Estatísticas</h2>
+   		   <h3 style="text-align: center">Creches por diretoria de ensino: Publicas, Privadas e Total</h3>
                     <div id = "containere" style = "min-width: 310px; height: 400px; margin: 0 auto"> </div>
                     <script>
                         var a = 0;
@@ -278,7 +350,7 @@
                                                 type: 'column'
                                             },
                                             title: {
-                                                text: 'Creches por diretoria de ensino: Publicas, Privadas e Total'
+                                                text: ' '
                                             },
                                             subtitle: {
                                                 text: ' '
@@ -347,3 +419,4 @@
             <?php include("footer.inc.php"); ?>
     </body>
 </html>
+
