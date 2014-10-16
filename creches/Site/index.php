@@ -42,7 +42,8 @@
         <!--Bootstrap-->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/application.js"></script>
-	
+				<script src="data/distritos.json"></script>
+				
 	<style>
 	/*Inicio do estilo da layer de busca por privada ou publica*/
 	#findpri {
@@ -206,7 +207,7 @@
                         });
 			//abertura do arquivo de layers e implementado no mapa.
                         var distritos = new L.KML("data/distritos.kml", {async: true});
-                        map.addLayer(distritos);
+                        //map.addLayer(distritos);
 
                         //Layer base
                         var baseLayers = {
@@ -219,7 +220,58 @@
                             "Privadas": privada,
                             "Distritos": distritos
                         };
-			
+												                        function getColor(d) {
+                            console.log(d);
+                            return d > 30 ? '#800026' :
+                                   d > 25  ? '#BD0026' :
+                                   d > 20  ? '#E31A1C' :
+                                   d > 15  ? '#FC4E2A' :
+                                   d > 10   ? '#FD8D3C' :
+                                   d > 5   ? '#FEB24C' :
+                                   d > 1   ? '#FED976' :
+                                              '#FFEDA0';
+                        }
+
+                        var filasGlobal = filas();
+                        
+                        function filas(){
+                            var filas = {};
+                            $.ajax({
+                                type: "GET",
+                                url: "data/filas/filas.csv",
+                                dataType: "text",
+                                async: false,
+                                success: function(data) {
+                                    var creches = $.csv.toArrays(data);
+                                    for(i = 1; i < creches.length; i++){
+                                      var distrito = creches[i].toString();
+                                      console.log("distrito " + distrito);
+                                      var indexComma = distrito.indexOf(",");
+                                      var fila = distrito.substr(indexComma + 1);
+                                      console.log("fila " + fila);
+                                      var distrito = distrito.substr(0, indexComma).trim();                                 
+                                      console.log("distrito " + distrito);
+                                      filas[distrito] = fila;
+                                    }
+                                  }
+                             });
+                            this.filasGlobal = filas;
+                        }
+
+                        function style(feature) {
+                            var distrito = feature.properties['Name'].toUpperCase();
+                            return {
+                                fillColor: getColor(this.filasGlobal[distrito]),
+                                weight: 2,
+                                opacity: 1,
+                                color: 'white',
+                                dashArray: '3',
+                                fillOpacity: 0.7
+                            };
+                        }
+
+                        var distritos = new L.GeoJSON(distritoData, {style: style});
+                        map.addLayer(distritos);			
 			//Controle das layers
                         L.control.layers(baseLayers, overlays).addTo(map);
 
