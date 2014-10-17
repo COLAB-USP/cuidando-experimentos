@@ -222,13 +222,13 @@
                         };
 												                        function getColor(d) {
                             console.log(d);
-                            return d > 70 ? '#800026' :
-                                   d > 60  ? '#BD0026' :
-                                   d > 50  ? '#E31A1C' :
-                                   d > 40  ? '#FC4E2A' :
-                                   d > 30   ? '#FD8D3C' :
-                                   d > 20   ? '#FEB24C' :
-                                   d > 10   ? '#FED976' :
+                            return d > 60 ? '#800026' :
+                                   d > 50  ? '#BD0026' :
+                                   d > 40  ? '#E31A1C' :
+                                   d > 30  ? '#FC4E2A' :
+                                   d > 20   ? '#FD8D3C' :
+                                   d > 10   ? '#FEB24C' :
+                                   d > 5   ? '#FED976' :
                                               '#FFEDA0';
                         }
 
