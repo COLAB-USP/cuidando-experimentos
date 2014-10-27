@@ -2,6 +2,9 @@
 require "selenium-webdriver"
 require 'csv'
 require 'fileutils'
+
+
+
 t = Time.new
 @dir_data = "/var/www/data/"
 @dir_script = @dir_data + "#{t.year}-#{t.month}-#{t.day}-#{t.hour}_#{t.min}"
@@ -207,7 +210,8 @@ def guaianases
 	"CIDADE TIRADENTES / SETOR 08",
 	"GUAIANASES / SETOR 01",
 	"GUAIANASES / SETOR 02",
-	"GUAIANASES / SETOR 03",
+	"GUAIANAS
+	ES / SETOR 03",
 	"GUAIANASES / SETOR 04",
 	"LAJEADO / SETOR 01",
 	"LAJEADO / SETOR 02",
@@ -585,6 +589,7 @@ def setores(dre)
 	return sao_mateus if dre == 12
 	return sao_miguel if dre == 13
 end
+
 def scrap_data_from_website
 	t = Time.new
 	@driver = Selenium::WebDriver.for :firefox
@@ -599,23 +604,34 @@ def scrap_data_from_website
 	diretorias_regionais = @driver.find_element(:id, "cboDRE").text.split("\n")
 	faixas_etarias = @driver.find_element(:id, "cboFaixaEtaria").text.split("\n")
 	setores = []
+	erros = []
 
 	CSV.open(file_name, "wb") do |csv|
-	csv << header
-	(1..13).each do |dre|
-		selecione_diretoria_regional(dre)
-		
-		setores(dre).each do |s|
-			selecione_setor s			
-			(1..6).each do |faixa_etaria|
-				selecione_faixa_etaria faixa_etaria
-				clique_confirmar
-				fila = tamanho_da_fila
-				csv << [diretorias_regionais[dre], s, faixas_etarias[faixa_etaria], fila]
-			end
-		end					
+		csv << header
+		(9..13).each do |dre|
+			puts "dre #{dre}"
+
+			selecione_diretoria_regional(dre)	
+			setores(dre).each do |s|
+				begin
+					selecione_setor s			
+					(1..6).each do |faixa_etaria|
+						selecione_faixa_etaria faixa_etaria
+						clique_confirmar
+						fila = tamanho_da_fila
+						csv << [diretorias_regionais[dre], s, faixas_etarias[faixa_etaria], fila]
+					end
+				rescue
+					erros << [dre, s, faixa_etaria]
+				end		
+			end		
+		end
 	end
-	end
+
+	open("#{dir_script}/error.txt", 'w') { |f|
+	  f.puts erros.to_s
+	}
+	
 	@driver.quit
 	return file_name
 end
