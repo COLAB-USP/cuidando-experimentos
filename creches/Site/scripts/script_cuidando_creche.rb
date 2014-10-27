@@ -608,22 +608,22 @@ def scrap_data_from_website
 
 	CSV.open(file_name, "wb") do |csv|
 		csv << header
-		(9..13).each do |dre|
+		(1..13).each do |dre|
 			puts "dre #{dre}"
 
 			selecione_diretoria_regional(dre)	
 			setores(dre).each do |s|
-				begin
-					selecione_setor s			
-					(1..6).each do |faixa_etaria|
+				selecione_setor s			
+				(1..6).each do |faixa_etaria|
+					begin
 						selecione_faixa_etaria faixa_etaria
 						clique_confirmar
 						fila = tamanho_da_fila
 						csv << [diretorias_regionais[dre], s, faixas_etarias[faixa_etaria], fila]
-					end
-				rescue
-					erros << [dre, s, faixa_etaria]
-				end		
+					rescue
+						erros << [dre, s, faixa_etaria]
+					end		
+				end
 			end		
 		end
 	end
@@ -751,12 +751,18 @@ def associa_populacao(cleaned_file, dados_populacao)
 	return file_final
 end
 
-#1
-file_name = scrap_data_from_website
-#2
-cleaned_file_name = clean_data(file_name)
-#3
-file_final = associa_populacao(cleaned_file_name, @dir_data + "populacao_0_4_anos.csv")
-#4
-FileUtils::rm "#{@dir_data}/filas.csv", :force => true
-FileUtils::cp file_final, @dir_data
+begin
+	#1
+	file_name = scrap_data_from_website
+	#2
+	cleaned_file_name = clean_data(file_name)
+	#3
+	file_final = associa_populacao(cleaned_file_name, @dir_data + "populacao_0_4_anos.csv")
+	#4
+	FileUtils::rm "#{@dir_data}/filas.csv", :force => true
+	FileUtils::cp file_final, @dir_data
+rescue Exception => e
+	open("#{@dir_script}/fatal_error.txt", 'w') { |f|
+	  f.puts e.message
+	}
+end
