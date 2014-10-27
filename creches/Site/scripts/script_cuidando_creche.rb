@@ -3,14 +3,6 @@ require "selenium-webdriver"
 require 'csv'
 require 'fileutils'
 
-
-
-t = Time.new
-@dir_data = "/var/www/data/"
-@dir_script = @dir_data + "#{t.year}-#{t.month}-#{t.day}-#{t.hour}_#{t.min}"
-
-FileUtils::mkdir_p @dir_script
-
 def selecione_diretoria_regional dre
 	Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "cboDRE")).select_by(:index, dre)
 end
@@ -78,7 +70,6 @@ def butanta
 						"VILA SONIA / SETOR 03",
 						"VILA SONIA / SETOR 04"]
 end
-
 def campo_limpo
 	return ["CAMPO LIMPO / SETOR 01",
 	"CAMPO LIMPO / SETOR 02",
@@ -111,7 +102,6 @@ def campo_limpo
 	"VILA ANDRADE / SETOR 01",
 	"VILA ANDRADE / SETOR 02"]
 end
-
 def capela_do_socorro
 	return ["CIDADE DUTRA / SETOR 01",
 	"CIDADE DUTRA / SETOR 02",
@@ -161,7 +151,6 @@ def capela_do_socorro
 	"SOCORRO / SETOR 03",
 	"SOCORRO / SETOR 04"]
 end
-
 def freguesia_brasilandia
 	return ["BRASILANDIA / SETOR 01",
 	"BRASILANDIA / SETOR 02",
@@ -198,7 +187,6 @@ def freguesia_brasilandia
 	"LIMAO / SETOR 03",
 	"LIMAO / SETOR 04"]
 end
-
 def guaianases
 	return ["CIDADE TIRADENTES / SETOR 01",
 	"CIDADE TIRADENTES / SETOR 02",
@@ -222,7 +210,6 @@ def guaianases
 	"LAJEADO / SETOR 07",
 	"LAJEADO / SETOR 08"]
 end
-
 def ipiranga
 	return ["BELA VISTA / SETOR 01",
 	"BOM RETIRO / SETOR 01",
@@ -261,7 +248,6 @@ def ipiranga
 	"VILA PRUDENTE / SETOR 01",
 	"VILA PRUDENTE / SETOR 02"]
 end
-
 def itaquera
 	return ["ARICANDUVA / SETOR 01",
 	"ARICANDUVA / SETOR 02",
@@ -300,7 +286,6 @@ def itaquera
 	"VILA FORMOSA / SETOR 04",
 	"VILA FORMOSA / SETOR 05"]
 end
-
 def jacana_tremembe
 	return ["JACANA / SETOR 01",
 	"JACANA / SETOR 02",
@@ -346,7 +331,6 @@ def jacana_tremembe
 	"VILA MEDEIROS / SETOR 04",
 	"VILA MEDEIROS / SETOR 05"]
 end
-
 def penha
 	return ["AGUA RASA / SETOR 01",
 	"AGUA RASA / SETOR 02",
@@ -392,7 +376,6 @@ def penha
 	"VILA MATILDE / SETOR 04",
 	"VILA MATILDE / SETOR 05"]
 end
-
 def pirituba
 	return ["ANHANGUERA / SETOR 01",
 	"ANHANGUERA / SETOR 02",
@@ -445,7 +428,6 @@ def pirituba
 	"VILA LEOPOLDINA / SETOR 01",
 	"VILA LEOPOLDINA / SETOR 02"]
 end
-
 def santo_amaro	
 	return ["CAMPO BELO / SETOR 01",
 	"CAMPO BELO / SETOR 02",
@@ -476,7 +458,6 @@ def santo_amaro
 	"SANTO AMARO / SETOR 03",
 	"SANTO AMARO / SETOR 04"]
 end
-
 def sao_mateus
 	return ["IGUATEMI / SETOR 01",
 	"IGUATEMI / SETOR 02",
@@ -514,7 +495,6 @@ def sao_mateus
 	"SAPOPEMBA / SETOR 09",
 	"SAPOPEMBA / SETOR 10"]
 end
-
 def sao_miguel	
 	return ["ITAIM PAULISTA / SETOR 01",
 	"ITAIM PAULISTA / SETOR 02",
@@ -573,7 +553,6 @@ def sao_miguel
 	"VILA MARIA / SETOR 05",
 	"VILA MARIA / SETOR 06"]
 end
-
 def setores(dre)
 	return butanta if dre == 1
 	return campo_limpo if dre == 2
@@ -608,13 +587,13 @@ def scrap_data_from_website
 
 	CSV.open(file_name, "wb") do |csv|
 		csv << header
-		(1..13).each do |dre|
+		(1..n_diretorias).each do |dre|
 			puts "dre #{dre}"
 
 			selecione_diretoria_regional(dre)	
 			setores(dre).each do |s|
 				selecione_setor s			
-				(1..6).each do |faixa_etaria|
+				(1..n_faixas_etarias).each do |faixa_etaria|
 					begin
 						selecione_faixa_etaria faixa_etaria
 						clique_confirmar
@@ -752,6 +731,12 @@ def associa_populacao(cleaned_file, dados_populacao)
 end
 
 begin
+	t = Time.new
+	@dir_data = "/var/www/data/"
+	@dir_script = @dir_data + "#{t.year}-#{t.month}-#{t.day}-#{t.hour}_#{t.min}"
+	
+	FileUtils::mkdir_p @dir_script
+	
 	#1
 	file_name = scrap_data_from_website
 	#2
