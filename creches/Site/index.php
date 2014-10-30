@@ -185,7 +185,7 @@
                   <td>Indice per capta do distrito <b>maior que 60</b>.</td>
                 </tr>
               </table>
-              Entenda o cálculo do Índice per capta <a href="cores_do_mapa.html" target="_blank">clicando aqui</a>  
+              Entenda o cálculo do Índice per capta <a href="cores_do_mapa.php" target="_blank">clicando aqui</a>  
             </div>
           </div>
        </td>
@@ -297,14 +297,11 @@
                                 async: false,
                                 success: function(data) {
                                     var creches = $.csv.toArrays(data);
+
                                     for(i = 1; i < creches.length; i++){
-                                      var distrito = creches[i].toString();
-                                      console.log("distrito " + distrito);
-                                      var indexComma = distrito.indexOf(",");
-                                      var fila = distrito.substr(indexComma + 1);
-                                      console.log("fila " + fila);
-                                      var distrito = distrito.substr(0, indexComma).trim();                                 
-                                      console.log("distrito " + distrito);
+                                      linha = creches[i].toString().split(",");
+                                      var distrito = linha[0];
+                                      var fila = linha[1];
                                       filas[distrito] = fila;
                                     }
                                   }

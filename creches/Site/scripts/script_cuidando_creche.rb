@@ -198,8 +198,7 @@ def guaianases
 	"CIDADE TIRADENTES / SETOR 08",
 	"GUAIANASES / SETOR 01",
 	"GUAIANASES / SETOR 02",
-	"GUAIANAS
-	ES / SETOR 03",
+	"GUAIANASES / SETOR 03",
 	"GUAIANASES / SETOR 04",
 	"LAJEADO / SETOR 01",
 	"LAJEADO / SETOR 02",
@@ -599,17 +598,13 @@ def scrap_data_from_website
 						clique_confirmar
 						fila = tamanho_da_fila
 						csv << [diretorias_regionais[dre], s, faixas_etarias[faixa_etaria], fila]
-					rescue
-						erros << [dre, s, faixa_etaria]
+					rescue  Exception => e
+						erros << [dre, s, faixa_etaria, e]
 					end		
 				end
 			end		
 		end
 	end
-
-	open("#{dir_script}/error.txt", 'w') { |f|
-	  f.puts erros.to_s
-	}
 	
 	@driver.quit
 	return file_name
@@ -730,7 +725,6 @@ def associa_populacao(cleaned_file, dados_populacao)
 	return file_final
 end
 
-begin
 	t = Time.new
 	@dir_data = "/var/www/data/"
 	@dir_script = @dir_data + "#{t.year}-#{t.month}-#{t.day}-#{t.hour}_#{t.min}"
@@ -746,8 +740,3 @@ begin
 	#4
 	FileUtils::rm "#{@dir_data}/filas.csv", :force => true
 	FileUtils::cp file_final, @dir_data
-rescue Exception => e
-	open("#{@dir_script}/fatal_error.txt", 'w') { |f|
-	  f.puts e.message
-	}
-end
