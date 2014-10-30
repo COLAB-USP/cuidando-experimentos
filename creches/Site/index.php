@@ -74,6 +74,9 @@
 		float: left;
 		margin-left: -22px;
 	}
+    p.fonte{
+        margin: 0 0 -4px;
+    }
 	/*Fim da declaracao de estilo*/ 
 	</style>
 
@@ -98,43 +101,94 @@
                 <h2>Mapa das Creches</h2>
 		<p align="left">Clique na lupa para encontrar um endereço.</p>
                 <div id="map" style="width: 1170px; height: 600px"></div>
-		<p align="right">Fonte dos dados: MEC/Inep; Tabela elaborada pelo Inep/DEED.</p>
             </section>
+        <p class="fonte" align="right">Fonte dos dados: MEC/Inep; Tabela elaborada pelo Inep/DEED.</p>
+        <p class="fonte" align="right">Fundacão SEADE; Populacao de 0 a 4 anos por distrito.</p>
+        <p class="fonte" align="right">Secretaria da Educacao de Sao Paulo; Consulta de candidatos cadastrados.</p>
 
 	    <section id="busca">
 		  <br><br>
 	    	   <table style="width:1170px;" cellpadding="0" cellspacing="0" id="table">
 			<tr>
-	  		 <td style="width:500px;vertical-align:top;" align="center">
-	    			<h2 style="text-align: left">Busque uma creche</h2>
+	  		<td style="width:500px;vertical-align:top;" align="center">
+	    		<h2 style="text-align: left">Busque uma creche</h2>
 					<h4 style="text-align: center">Conveniada</h4>                
 					<div id="findpri"></div>
 					<h4 style="text-align: center">Pública</h4>
 					<div id="findpu"></div>	
 					*Clique na lupa e digite o nome da creche, ela irá aparecer no mapa acima.
+  			</td>
+      	<td style="width:500px;vertical-align:left;" align="center">
+        	<h2 style="text-align: left">Legenda dos Marcadores</h2>
+          <br><br>
+    			<div class="row">
+          	<div style="width:397px; margin:0 auto;">
+              <table id="label" cellspacing="0" cellpadding="0">
+          			<tr>
+            			<th scope="col" class="nobg"></th>
+            			<th scope="col">Significado</th>
+          			</tr>
+          			<tr>
+            			<th scope="row" class="spec" style="text-align: left"><img src="img/pin-green.png" width="22" height="32"></img></th>
+            			<td>As creches são <b>Conveniadas</b>.</td>
+          			</tr>
+          			<tr>
+          				<th scope="row" class="specalt" style="text-align: left"><img src="img/pin-blue.png" width="22" height="32">
+                    </img>
+                  </th>
+                  <td class="alt">As creches são <b>Públicas</b>.</td>
+                </tr>
+              </table>
+            </div>
+          </div>
 			 </td>
-                	 <td style="width:500px;vertical-align:left;" align="center">
-                    	 	<h2 style="text-align: left">Legenda dos Marcadores</h2>
-					<br><br>
-                			<div class="row">
-                    			<div style="width:397px; margin:0 auto;">
-                        		<table id="label" cellspacing="0" cellpadding="0">
-                            			<tr>
-                                			<th scope="col" class="nobg"></th>
-                                			<th scope="col">Significado</th>
-                            			</tr>
-                            			<tr>
-                                			<th scope="row" class="spec" style="text-align: left"><img src="img/pin-green.png" width="22" height="32"></img></th>
-                                			<td>As creches são <b>Conveniadas</b>.</td>
-                            			</tr>
-                            			<tr>
-                            				<th scope="row" class="specalt" style="text-align: left"><img src="img/pin-blue.png" width="22" height="32"></img></th>
-                                			<td class="alt">As creches são <b>Públicas</b>.</td>
-                            			</tr>
-                        		</table>
-                    			</div>
-                			</div>
-			</td>
+       <td style="width:500px;vertical-align:left;" align="center">
+          <h2 style="text-align: left">Legenda das cores</h2>
+          <br><br>
+          <div class="row">
+            <div style="width:397px; margin:0 auto;">
+              <table id="label" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th scope="col" class="nobg"></th>
+                  <th scope="col">Significado</th>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #FFEDA0"></td>
+                  <td>Indice per capta do distrito <b>menor que 5</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #FED976"></td>
+                  <td>Indice per capta do distrito <b>entre 5 e 10</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #FEB24C"></td>
+                  <td>Indice per capta do distrito <b>entre 10 e 20</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #FD8D3C"></td>
+                  <td>Indice per capta do distrito <b>entre 20 e 30</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
+                  <td>Indice per capta do distrito <b>entre 30 e 40</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #E31A1C"></td>
+                  <td>Indice per capta do distrito <b>entre 40 e 50</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #BD0026"></td>
+                  <td>Indice per capta do distrito <b>entre 50 e 60</b>.</td>
+                </tr>
+                <tr>
+                  <td scope="row" style="text-align: left; background-color: #800026"></td>
+                  <td>Indice per capta do distrito <b>maior que 60</b>.</td>
+                </tr>
+              </table>
+              Entenda o cálculo do Índice per capta <a href="cores_do_mapa.html" target="_blank">clicando aqui</a>  
+            </div>
+          </div>
+       </td>
 			</tr>
 		</table>		
             </section>
