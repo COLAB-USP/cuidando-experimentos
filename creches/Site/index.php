@@ -324,9 +324,15 @@
                             };
                         }
 
-                        var distritos = new L.GeoJSON(distritoData, {style: style});
-                        map.addLayer(distritos);			
-			//Controle das layers
+
+                        var distritos = new L.GeoJSON(distritoData, {style: style, onEachFeature: onEachFeature});
+                        map.addLayer(distritos);	
+
+			                   function onEachFeature(feature, layer) {
+                              layer.bindPopup(feature.properties.Name);
+                          }
+                         //Controle das layers
+
                         L.control.layers(baseLayers, overlays).addTo(map);
 
 			
