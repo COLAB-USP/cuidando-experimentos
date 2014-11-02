@@ -726,8 +726,8 @@ def associa_populacao(cleaned_file, dados_populacao)
 end
 
 	t = Time.new
-	@dir_data = "/var/www/data/"
-	@dir_script = @dir_data + "#{t.year}-#{t.month}-#{t.day}-#{t.hour}_#{t.min}"
+	@dir_data = "/var/www/cuidando2/creches/Site/scripts/"
+	@dir_script = @dir_data + "/data/#{t.year}-#{t.month}-#{t.day}-#{t.hour}_#{t.min}"
 	
 	FileUtils::mkdir_p @dir_script
 	#1
@@ -735,7 +735,7 @@ end
 	#2
 	cleaned_file_name = clean_data(file_name)
 	#3
-	file_final = associa_populacao(cleaned_file_name, @dir_data + "populacao_0_4_anos.csv")
+	file_final = associa_populacao(cleaned_file_name, @dir_data + "/data/populacao_0_4_anos.csv")
 	#4
 	FileUtils::rm "#{@dir_data}/filas.csv", :force => true
 	FileUtils::cp file_final, @dir_data
