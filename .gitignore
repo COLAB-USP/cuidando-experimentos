@@ -38,3 +38,5 @@ GIT
 .mr.developer.cfg
 .project
 .pydevproject
+
+creches/Site/scripts/*
