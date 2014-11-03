@@ -285,7 +285,6 @@
                                    d > 5   ? '#FED976' :
                                               '#FFEDA0';
                         }
-
                         var filasGlobal = filas();
                         
                         function filas(){
