@@ -292,7 +292,7 @@
                             var filas = {};
                             $.ajax({
                                 type: "GET",
-                                url: "data/filas/filas.csv",
+                                url: "scripts/filas.csv",
                                 dataType: "text",
                                 async: false,
                                 success: function(data) {
