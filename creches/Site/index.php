@@ -154,35 +154,35 @@
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #FFEDA0"></td>
-                  <td>Indice per capta do distrito <b>menor que 5</b>.</td>
+                  <td>Fila per capta do distrito <b>menor que 5</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #FED976"></td>
-                  <td>Indice per capta do distrito <b>entre 5 e 10</b>.</td>
+                  <td>Fila per capta do distrito <b>entre 5 e 10</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #FEB24C"></td>
-                  <td>Indice per capta do distrito <b>entre 10 e 20</b>.</td>
+                  <td>Fila per capta do distrito <b>entre 10 e 20</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #FD8D3C"></td>
-                  <td>Indice per capta do distrito <b>entre 20 e 30</b>.</td>
+                  <td>Fila per capta do distrito <b>entre 20 e 30</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
-                  <td>Indice per capta do distrito <b>entre 30 e 40</b>.</td>
+                  <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #E31A1C"></td>
-                  <td>Indice per capta do distrito <b>entre 40 e 50</b>.</td>
+                  <td>Fila per capta do distrito <b>entre 40 e 50</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #BD0026"></td>
-                  <td>Indice per capta do distrito <b>entre 50 e 60</b>.</td>
+                  <td>Fila per capta do distrito <b>entre 50 e 60</b>.</td>
                 </tr>
                 <tr>
                   <td scope="row" style="text-align: left; background-color: #800026"></td>
-                  <td>Indice per capta do distrito <b>maior que 60</b>.</td>
+                  <td>Fila per capta do distrito <b>maior que 60</b>.</td>
                 </tr>
               </table>
               Entenda o cálculo do Índice per capta <a href="cores_do_mapa.php" target="_blank">clicando aqui</a>  
