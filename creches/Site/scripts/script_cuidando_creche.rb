@@ -666,8 +666,11 @@ def clean_data(file_name)
 	hashdist = {}
 	last_dist = nil
 	dist = nil
-
-	lines.each do |l|
+	
+	line_i = 0
+	#lines.each do |l|
+	while line_i < lines.size
+		l = line_i
 		#l[1] = setor e #l[3] = quantidade
 		l[1] = l[1].slice(0..(l[1].index('/') - 2)) 
 		if(l[1] != last_dist)
@@ -681,6 +684,11 @@ def clean_data(file_name)
 			#puts "last_dist = l[1] => #{l[1]}"
 		else
 			hashdist[dist] += l[3].to_i
+		end
+		if(line_i % 2 == 0)
+			line_i += 4
+		else
+			line_i += 1		
 		end
 	end
 
