@@ -42,9 +42,10 @@ def clean_data(file_name)
 
 
 	lines = []
-
+	cc = 1
 	CSV.foreach(csv_file) do |csv|
-		lines << csv
+		lines << csv if cc <= 3	
+		cc = cc % 6
 	end
 
 	#remove cabecalho
