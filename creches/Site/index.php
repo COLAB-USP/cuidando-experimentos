@@ -83,10 +83,9 @@
     </head>
 
     <body>
-
         <?php include("header.inc.php"); ?>
         <div class="container">
-            <header class="jumbotron subhead" id="overview">
+            <header class="jumbotron subhead" id="overview" style="margin-top: -30px;">
                 <div class="subnav">
                     <ul class="nav nav-pills">
                         <li><a href="#mapa">Mapa</a></li>
@@ -96,10 +95,77 @@
                     </ul>
                 </div>
             </header>
-
             <section id="mapa">
-                <h2>Mapa das Creches</h2>
-		<p align="left">Clique na lupa para encontrar um endereço.</p>
+                <h2>Mapas de oferta e demanda de Creches</h2>
+                <p>Mapas de <b>oferta</b> de creches (divididas em públicas e conveniadas) e da <b>demanda</b> com os distritos coloridos pelo tamanho da fila</p>
+    <table style="width:100%">
+      <tr>
+        <td style="width:500px;vertical-align:left;" align="center">
+          <div class="row">
+            <div style="width:397px; margin:0 auto;">
+              <table id="label" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th scope="col" class="nobg"></th>
+                  <th scope="col">Significado</th>
+                </tr>
+                <tr>
+                  <th scope="row" class="spec" style="text-align: left"><img src="img/pin-green.png" width="22" height="32"></img></th>
+                  <td>As creches são <b>Conveniadas</b>.</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="specalt" style="text-align: left"><img src="img/pin-blue.png" width="22" height="32">
+                  </img>
+                </th>
+                <td class="alt">As creches são <b>Públicas</b>.</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </td>
+      <td style="width:500px;vertical-align:left;" align="center">
+
+        <div class="row">
+          <div style="width:397px; margin:0 auto;">
+            <table id="label" cellspacing="0" cellpadding="0">
+              <tr>
+                <th scope="col" class="nobg"></th>
+                <th scope="col">Significado</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+              <tr>
+                <td scope="row" style="text-align: left; background-color: #FFEDA0"></td>
+                <td>Fila per capta do distrito <b>menor que 5</b>.</td>
+
+                <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
+                <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
+              </tr>
+              <tr>
+                <td scope="row" style="text-align: left; background-color: #FED976"></td>
+                <td>Fila per capta do distrito <b>entre 5 e 10</b>.</td>
+                <td scope="row" style="text-align: left; background-color: #E31A1C"></td>
+                <td>Fila per capta do distrito <b>entre 40 e 50</b>.</td>
+              </tr>
+              <tr>
+                <td scope="row" style="text-align: left; background-color: #FEB24C"></td>
+                <td>Fila per capta do distrito <b>entre 10 e 20</b>.</td>
+
+                <td scope="row" style="text-align: left; background-color: #BD0026"></td>
+                <td>Fila per capta do distrito <b>entre 50 e 60</b>.</td>
+              </tr>
+              <tr>
+                <td scope="row" style="text-align: left; background-color: #FD8D3C"></td>
+                <td>Fila per capta do distrito <b>entre 20 e 30</b>.</td>
+                <td scope="row" style="text-align: left; background-color: #800026"></td>
+                <td>Fila per capta do distrito <b>maior que 60</b>.</td>
+              </tr>
+            </table>
+            Entenda o cálculo da fila per capta <a href="cores_do_mapa.php" target="_blank">clicando aqui</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
                 <div id="map" style="width: 1170px; height: 600px"></div>
             </section>
         <p class="fonte" align="right">Fonte dos dados: MEC/Inep; Tabela elaborada pelo Inep/DEED.</p>
@@ -118,77 +184,6 @@
 					<div id="findpu"></div>
 					*Clique na lupa e digite o nome da creche, ela irá aparecer no mapa acima.
   			</td>
-      	<td style="width:500px;vertical-align:left;" align="center">
-        	<h2 style="text-align: left">Legenda dos Marcadores</h2>
-          <br><br>
-    			<div class="row">
-          	<div style="width:397px; margin:0 auto;">
-              <table id="label" cellspacing="0" cellpadding="0">
-          			<tr>
-            			<th scope="col" class="nobg"></th>
-            			<th scope="col">Significado</th>
-          			</tr>
-          			<tr>
-            			<th scope="row" class="spec" style="text-align: left"><img src="img/pin-green.png" width="22" height="32"></img></th>
-            			<td>As creches são <b>Conveniadas</b>.</td>
-          			</tr>
-          			<tr>
-          				<th scope="row" class="specalt" style="text-align: left"><img src="img/pin-blue.png" width="22" height="32">
-                    </img>
-                  </th>
-                  <td class="alt">As creches são <b>Públicas</b>.</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-			 </td>
-       <td style="width:500px;vertical-align:left;" align="center">
-          <h2 style="text-align: left">Legenda das cores</h2>
-          <br><br>
-          <div class="row">
-            <div style="width:397px; margin:0 auto;">
-              <table id="label" cellspacing="0" cellpadding="0">
-                <tr>
-                  <th scope="col" class="nobg"></th>
-                  <th scope="col">Significado</th>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #FFEDA0"></td>
-                  <td>Fila per capta do distrito <b>menor que 5</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #FED976"></td>
-                  <td>Fila per capta do distrito <b>entre 5 e 10</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #FEB24C"></td>
-                  <td>Fila per capta do distrito <b>entre 10 e 20</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #FD8D3C"></td>
-                  <td>Fila per capta do distrito <b>entre 20 e 30</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
-                  <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #E31A1C"></td>
-                  <td>Fila per capta do distrito <b>entre 40 e 50</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #BD0026"></td>
-                  <td>Fila per capta do distrito <b>entre 50 e 60</b>.</td>
-                </tr>
-                <tr>
-                  <td scope="row" style="text-align: left; background-color: #800026"></td>
-                  <td>Fila per capta do distrito <b>maior que 60</b>.</td>
-                </tr>
-              </table>
-              Entenda o cálculo do Índice per capta <a href="cores_do_mapa.php" target="_blank">clicando aqui</a>
-            </div>
-          </div>
-       </td>
 			</tr>
 		</table>
             </section>
