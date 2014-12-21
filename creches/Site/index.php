@@ -136,26 +136,27 @@
               <tr>
                 <td scope="row" style="text-align: left; background-color: #FFEDA0"></td>
                 <td>Fila per capta do distrito <b>menor que 5</b>.</td>
+                <td scope="row" style="text-align: left; background-color: #FED976"></td>
+                <td>Fila per capta do distrito <b>entre 5 e 10</b>.</td>
 
                 <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
                 <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
-              </tr>
-              <tr>
-                <td scope="row" style="text-align: left; background-color: #FED976"></td>
-                <td>Fila per capta do distrito <b>entre 5 e 10</b>.</td>
-                <td scope="row" style="text-align: left; background-color: #E31A1C"></td>
-                <td>Fila per capta do distrito <b>entre 40 e 50</b>.</td>
+
               </tr>
               <tr>
                 <td scope="row" style="text-align: left; background-color: #FEB24C"></td>
                 <td>Fila per capta do distrito <b>entre 10 e 20</b>.</td>
+                <td scope="row" style="text-align: left; background-color: #FD8D3C"></td>
+                <td>Fila per capta do distrito <b>entre 20 e 30</b>.</td>
+
+
+              </tr>
+              <tr>
 
                 <td scope="row" style="text-align: left; background-color: #BD0026"></td>
                 <td>Fila per capta do distrito <b>entre 50 e 60</b>.</td>
               </tr>
               <tr>
-                <td scope="row" style="text-align: left; background-color: #FD8D3C"></td>
-                <td>Fila per capta do distrito <b>entre 20 e 30</b>.</td>
                 <td scope="row" style="text-align: left; background-color: #800026"></td>
                 <td>Fila per capta do distrito <b>maior que 60</b>.</td>
               </tr>
@@ -165,7 +166,7 @@
         </div>
       </td>
     </tr>
-  </table>
+    </table>
                 <div id="map" style="width: 1170px; height: 600px"></div>
             </section>
         <p class="fonte" align="right"><a href="http://dados.gov.br/dataset/instituicoes-de-ensino-basico" target="_blank">Censo Escolar de 2012.</a>, MEC/Inep, 2012</p>
@@ -268,8 +269,12 @@
                             "Públicas": publica,
                             "Privadas": privada
                         };
-												                        function getColor(d) {
-                            console.log(d);
+												 function getColor(d, distr) {
+                            if(d == undefined){
+                              console.log(distr);
+                            }
+                            //console.log(d);
+
                             return d > 60 ? '#800026' :
                                    d > 50  ? '#BD0026' :
                                    d > 40  ? '#E31A1C' :
@@ -279,9 +284,7 @@
                                    d > 5   ? '#FED976' :
                                               '#FFEDA0';
                         }
-                        var filasGlobal = filas();
-
-                        function filas(){
+                        function filaCSV(callback){
                             var filas = {};
                             $.ajax({
                                 type: "GET",
@@ -295,31 +298,49 @@
                                       linha = creches[i].toString().split(",");
                                       var distrito = linha[0];
                                       var fila = linha[1];
-                                      filas[distrito] = fila;
+                                      filas[distrito] = [fila, linha[2], linha[3]];
                                     }
+                                    callback(filas);
                                   }
                              });
-                            this.filasGlobal = filas;
                         }
 
                         function style(feature) {
                             var distrito = feature.properties['Name'].toUpperCase();
-                            return {
-                                fillColor: getColor(this.filasGlobal[distrito]),
+                            var r = undefined;
+                            filaCSV(function(filas){
+                              console.log(filas)
+                              r = {
+                                fillColor: getColor(filas[distrito][0], distrito),
                                 weight: 2,
                                 opacity: 1,
                                 color: 'white',
                                 dashArray: '3',
                                 fillOpacity: 0.7
-                            };
+                              };
+                            })
+                            return r;
                         }
 
 
                         var distritos = new L.GeoJSON(distritoData, {style: style, onEachFeature: onEachFeature});
                         map.addLayer(distritos);
 
+
 			                   function onEachFeature(feature, layer) {
-                              layer.bindPopup(feature.properties.Name);
+                           filaCSV(function(filas){
+                              var balao = "<b>" + feature.properties.Name + "</b>";
+                              balao += "<br/> Fila per capta: " + filas[feature.properties.Name.toUpperCase()][0];
+                              balao += "<br/> Tamanho da fila (2014, <a href='http://eolgerenciamento.prefeitura.sp.gov.br/se1426g/frmgerencial/ConsultaCandidatosCadastrados.aspx?Cod=000000'>SME</a>): " + filas[feature.properties.Name.toUpperCase()][1];
+                              balao += "<br/> População de 0 a 4 anos (2014, <a href='http://produtos.seade.gov.br/produtos/distritos/index.php'>SEADE</a>): " + filas[feature.properties.Name.toUpperCase()][2];
+                              layer.bindPopup(balao);
+                                layer.on('mouseover', function (e) {
+                                  this.openPopup();
+                                });
+                                layer.on('mouseout', function (e) {
+                                  this.closePopup();
+                                });
+                              });
                           }
                          //Controle das layers
 
