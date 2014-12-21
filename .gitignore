@@ -39,4 +39,4 @@ GIT
 .project
 .pydevproject
 
-creches/Site/scripts/data/*
+creches/Site/data/*
