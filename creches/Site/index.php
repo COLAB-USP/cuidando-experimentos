@@ -15,7 +15,7 @@
         <!--Leaflet APIs-->
         <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
         <script src="js/leaflet.markercluster-src.js"></script>
-        <script src="js/KML.js"></script>  
+        <script src="js/KML.js"></script>
 
 
         <!--CSS Styles-->
@@ -33,24 +33,24 @@
         <script src="http://code.highcharts.com/highcharts.js"></script>
         <script src="http://code.highcharts.com/modules/exporting.js"></script>
         <script src="js/leaflet-search.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>	
+	<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
 
-	
-        <!--JQuery-->        
+
+        <!--JQuery-->
         <script src="js/jquery.csv-0.71.min.js"></script>
 
         <!--Bootstrap-->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/application.js"></script>
 				<script src="data/distritos.json"></script>
-				
+
 	<style>
 	/*Inicio do estilo da layer de busca por privada ou publica*/
 	#findpri {
 		background: #eee;
 		border-radius:.125em;
 		border:2px solid #1978cf;
-		box-shadow: 0 0 8px #999;	
+		box-shadow: 0 0 8px #999;
 		margin-bottom: 10px;
 		padding: 2px 0;
 		width: 300px;
@@ -60,7 +60,7 @@
 		background: #eee;
 		border-radius:.125em;
 		border:2px solid #1978cf;
-		box-shadow: 0 0 8px #999;	
+		box-shadow: 0 0 8px #999;
 		margin-bottom: 10px;
 		padding: 2px 0;
 		width: 300px;
@@ -77,13 +77,13 @@
     p.fonte{
         margin: 0 0 -4px;
     }
-	/*Fim da declaracao de estilo*/ 
+	/*Fim da declaracao de estilo*/
 	</style>
 
     </head>
 
     <body>
-   	
+
         <?php include("header.inc.php"); ?>
         <div class="container">
             <header class="jumbotron subhead" id="overview">
@@ -112,10 +112,10 @@
 			<tr>
 	  		<td style="width:500px;vertical-align:top;" align="center">
 	    		<h2 style="text-align: left">Busque uma creche</h2>
-					<h4 style="text-align: center">Conveniada</h4>                
+					<h4 style="text-align: center">Conveniada</h4>
 					<div id="findpri"></div>
 					<h4 style="text-align: center">Pública</h4>
-					<div id="findpu"></div>	
+					<div id="findpu"></div>
 					*Clique na lupa e digite o nome da creche, ela irá aparecer no mapa acima.
   			</td>
       	<td style="width:500px;vertical-align:left;" align="center">
@@ -185,14 +185,14 @@
                   <td>Fila per capta do distrito <b>maior que 60</b>.</td>
                 </tr>
               </table>
-              Entenda o cálculo do Índice per capta <a href="cores_do_mapa.php" target="_blank">clicando aqui</a>  
+              Entenda o cálculo do Índice per capta <a href="cores_do_mapa.php" target="_blank">clicando aqui</a>
             </div>
           </div>
        </td>
 			</tr>
-		</table>		
+		</table>
             </section>
-		  
+
             <section id="estatistica">
 		<br>
 		<br>
@@ -203,8 +203,8 @@
             </section>
 
 		<script>
-		   
-                    /*Processamento do arquivo das creches. Plotação no grafico, calculo das estisticas, geracao de grafico*/   
+
+                    /*Processamento do arquivo das creches. Plotação no grafico, calculo das estisticas, geracao de grafico*/
                     $.get("data/creches.csv", function(data) {
                         var creches = $.csv.toArrays(data);
 
@@ -213,17 +213,17 @@
                                 iconUrl: 'img/pin-green.png',
                                 iconSize: [50, 41],
                                 popupAnchor: [15, -41],
-                            
+
                         });
 			//icone blueIcon = publica
                         var blueIcon = L.icon({
                                 iconUrl: 'img/pin-blue.png',
                                 iconSize: [50, 41],
                                 popupAnchor: [15, -41],
-      
+
                         });
 
-		
+
                         //Layers
                         var publica = L.markerClusterGroup();
                         var privada = L.markerClusterGroup();
@@ -235,7 +235,7 @@
 
                         //Marcação das creches no mapa
                             for (var i = 1; i < creches.length - 1; i++) {
-                                var a = creches[i];                     
+                                var a = creches[i];
                                     //Separação das creches
                                     if (a[4] == 'Privada') {
 					var popup = L.popup().setContent(a[3] + "<br>" + "Administração: " + a[4] + "<br>" + "Dependencia Administrativa: " + a[58] + "<br>" + "Tipo: " + a[59] + "<br>" + "Distrito: " + a[6] + "<br>" + "Endereço: " + a[7] + " Nº " + a[8] + "<br>" + "Bairro: " + a[9] + "<br>" + "CEP: " + a[10] + " Telefone: 11 " + a[11] + "<br>" + "Fax: " + a[12] + "<br>" + "e-mail: " + a[13] + "<br>" + "Situação: " + a[14] + "<br>" + " Matriculados: " + a[57] + "<br>" + "Abre aos Finais de semana: " + a[55] + "<br><br>" + "Infraestrutura: " + "<br>" + "Número de Salas: " + a[40] + "<br>" + "Número de Funcionários: " + a[43] + "<br>" + "Acessibilidade: " + a[15] + "<br>" + "Dependencias PNE: " + a[16] + "<br>" + "Sanitário PNE: " + a[17] + "<br>" + "Cozinha: " + a[30] + "<br>" + "Refeitório: " + a[18] + "<br>" + "Despensa: " + a[19] + "<br>" + "Lavanderia: " + a[37] + "<br>" + "Chuveiro: " + a[36] +"<br>"+ "Auditorio: " + a[21] + "<br>" + "Laboratório de Informática: " + a[22] + "<br>" + "Laboratório de Ciências: " + a[23] + "<br>" + "Quadra de esportes coberta: " + a[25] +"<br>" +"Quadra descoberta: " + a[26] + "<br>" + "Pátio coberto: " + a[27] + " Descoberto: " + a[28] + "<br>" + "Parque Infantil: " + a[29] + "<br>" + "Biblioteca: " + a[36] + "<br>" + "Berçário: " + a[31] + "<br>" + "Sala de Leitura: " + a[41] + "<br>" + "Area verde: " + a[42] +"<br>"+ "Internet: " + a[45] + "<b>" + "TV: " + a[53] + "<br>" + "Multimídia: " + a[52]);
@@ -246,7 +246,7 @@
                                     }
 
                             }
-                       
+
 
                         //Configuração tile do mapa
                         var cmAttr = '&copy; Mapbox &copy OpenStreetMap',
@@ -271,8 +271,7 @@
                         //Overlays
                         var overlays = {
                             "Públicas": publica,
-                            "Privadas": privada,
-                            "Distritos": distritos
+                            "Privadas": privada
                         };
 												                        function getColor(d) {
                             console.log(d);
@@ -286,7 +285,7 @@
                                               '#FFEDA0';
                         }
                         var filasGlobal = filas();
-                        
+
                         function filas(){
                             var filas = {};
                             $.ajax({
@@ -322,7 +321,7 @@
 
 
                         var distritos = new L.GeoJSON(distritoData, {style: style, onEachFeature: onEachFeature});
-                        map.addLayer(distritos);	
+                        map.addLayer(distritos);
 
 			                   function onEachFeature(feature, layer) {
                               layer.bindPopup(feature.properties.Name);
@@ -331,11 +330,11 @@
 
                         L.control.layers(baseLayers, overlays).addTo(map);
 
-			
+
 			/*Ferramenta de busca fora do mapa por nome de creche, findpri: privada e findpu: publica, conforme foi atribuido no inicio do código da layer de busca*/
 			map.addControl(new L.Control.Search({wrapper: 'findpri', layer: privada, zoom: 19, initial: false}));
 			map.addControl(new L.Control.Search({wrapper: 'findpu', zoom: 19, layer: publica, initial: false}));
-			
+
 			/*Ferramenta de busca dentro do mapa de endereços da google.*/
 			var geocoder = new google.maps.Geocoder();
 
@@ -346,7 +345,7 @@
 			function filterJSONCall(rawjson){
 				var json = {},
 				key, loc, disp = [];
-	
+
 				for(var i in rawjson){
 				key = rawjson[i].formatted_address;
 
@@ -366,7 +365,7 @@
 				minLength: 2,
 				zoom: 19
 			})); //Fim busca endereço
-			
+
 			//Inicio das estatisticas
 			//Variáveis dos diretorios, pub: publico, conv: conveniado
 		    	var i = 0;
@@ -374,14 +373,14 @@
 		    	var conv = new Array(12);
 		    	while(i<13){
 				pub[i] = 0;
-				conv[i] = 0;				
+				conv[i] = 0;
 				i++;
 		    	}
-                
+
 			//Inicio do processamento das estatisticas
 			for (var i = 1; i < creches.length - 1; i++) {
                                 var a = creches[i];
-				
+
 				if(a[6] == 'JARDIM PAULISTA' || a[6] == 'ITAIM BIBI' || a[6] == 'BUTANTA' || a[6] == 'RIO PEQUENO' || a[6] == 'PINHEIROS' || a[6] == 'ALTO DE PINHEIROS' || a[6] == 'MORUMBI' || a[6] == 'RAPOSO TAVARES' || 					a[6] == 'VILA SONIA'){ //BUTANTA
 					if(a[4] == 'Privada') conv[0] = conv[0] + 1;
 					else pub[0] = pub[0]+1;
@@ -399,7 +398,7 @@
 					else pub[3] = pub[3]+1;
 				}
 				else if(a[6] == 'GUAIANASES' || a[6] == 'LAJEADO' || a[6] == 'CIDADE TIRADENTES'){ //GUAIANASES
-					if(a[4] == 'Privada') conv[4] = conv[4] + 1; 
+					if(a[4] == 'Privada') conv[4] = conv[4] + 1;
 					else pub[4] = pub[4]+1;
 				}
 				else if(a[6] == 'REPUBLICA' || a[6] == 'BELA VISTA' || a[6] == 'BOM RETIRO' || a[6] == 'CAMBUCI' || a[6] == 'CONSOLACAO' ||	a[6] == 'CURSINO' || a[6] == 'IPIRANGA' || a[6] == 'LIBERDADE' || a[6] == 'MOEMA' || a[6] == 'SACOMA' || a[6] == 'SANTA CECILIA' || a[6] == 'SAO LUCAS' || a[6] == 'SAUDE' || a[6] == 'SE' || a[6] == 'VILA MARIANA' || a[6] == 'VILA PRUDENTE'){ //IPIRANGA
@@ -410,7 +409,7 @@
 					if(a[4] == 'Privada') conv[6] = conv[6] + 1;
 					else pub[6] = pub[6]+1;
 				}
-				else if(a[6] == 'JACANA' || a[6] == 'MANDAQUI' || a[6] == 'SANTANA' || a[6] == 'TREMEMBE' || a[6] == 'TUCURUVI' || a[6] == 'VILA GUILHERME' || a[6] == 'VILA MARIA' || a[6] == 'VILA MEDEIROS'){ 
+				else if(a[6] == 'JACANA' || a[6] == 'MANDAQUI' || a[6] == 'SANTANA' || a[6] == 'TREMEMBE' || a[6] == 'TUCURUVI' || a[6] == 'VILA GUILHERME' || a[6] == 'VILA MARIA' || a[6] == 'VILA MEDEIROS'){
 					if(a[4] == 'Privada') conv[7] = conv[7] + 1;
 					else pub[7] = pub[7]+1; //JACANA - TREMEMBE
 				}
@@ -439,7 +438,7 @@
 					console.log(a[6]);
 				}
                             }
-			
+
 		//Função que implementa o grafico baseado no processamento do arquivo acima.
 		     $(function() {
                                   $('#containere').highcharts({
@@ -507,10 +506,9 @@
 		    //fim do grafico
 
 
-	
-		
+
+
                 </script>
             <?php include("footer.inc.php"); ?>
     </body>
 </html>
-
