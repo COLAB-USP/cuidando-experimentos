@@ -168,9 +168,9 @@
   </table>
                 <div id="map" style="width: 1170px; height: 600px"></div>
             </section>
-        <p class="fonte" align="right">Fonte dos dados: MEC/Inep; Tabela elaborada pelo Inep/DEED.</p>
-        <p class="fonte" align="right">Fundacão SEADE; Populacao de 0 a 4 anos por distrito.</p>
-        <p class="fonte" align="right">Secretaria da Educacao de Sao Paulo; Consulta de candidatos cadastrados.</p>
+        <p class="fonte" align="right"><a href="http://dados.gov.br/dataset/instituicoes-de-ensino-basico" target="_blank">Censo Escolar de 2012.</a>, MEC/Inep, 2012</p>
+        <p class="fonte" align="right"><a href="http://produtos.seade.gov.br/produtos/distritos/index.php" target="_blank">População de 0 a 4 anos por distrito</a>, Fundacão SEADE, 01/10/2014.</p>
+        <p class="fonte" align="right"><a href="http://eolgerenciamento.prefeitura.sp.gov.br/se1426g/frmgerencial/ConsultaCandidatosCadastrados.aspx?Cod=000000" target="_blank">Consulta de candidatos cadastrados</a>, Secretaria da Educacao de Sao Paulo, 08/12/2014.</p>
 
 	    <section id="busca">
 		  <br><br>
