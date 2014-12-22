@@ -139,9 +139,6 @@
                 <td scope="row" style="text-align: left; background-color: #FED976"></td>
                 <td>Fila per capta do distrito <b>entre 5 e 10</b>.</td>
 
-                <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
-                <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
-
               </tr>
               <tr>
                 <td scope="row" style="text-align: left; background-color: #FEB24C"></td>
@@ -152,11 +149,15 @@
 
               </tr>
               <tr>
-
-                <td scope="row" style="text-align: left; background-color: #BD0026"></td>
-                <td>Fila per capta do distrito <b>entre 50 e 60</b>.</td>
+		
+                <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
+                <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
+		<td scope="row" style="text-align: left; background-color: #E31A1C"></td>
+                <td>Fila per capta do distrito <b>entre 40 e 50</b>.</td>
               </tr>
               <tr>
+		<td scope="row" style="text-align: left; background-color: #BD0026"></td>
+                <td>Fila per capta do distrito <b>entre 50 e 60</b>.</td>
                 <td scope="row" style="text-align: left; background-color: #800026"></td>
                 <td>Fila per capta do distrito <b>maior que 60</b>.</td>
               </tr>
@@ -288,7 +289,7 @@
                             var filas = {};
                             $.ajax({
                                 type: "GET",
-                                url: "scripts/filas.csv",
+                                url: "data/filas.csv",
                                 dataType: "text",
                                 async: false,
                                 success: function(data) {
@@ -331,8 +332,8 @@
                            filaCSV(function(filas){
                               var balao = "<b>" + feature.properties.Name + "</b>";
                               balao += "<br/> Fila per capta: " + filas[feature.properties.Name.toUpperCase()][0];
-                              balao += "<br/> Tamanho da fila (2014, <a href='http://eolgerenciamento.prefeitura.sp.gov.br/se1426g/frmgerencial/ConsultaCandidatosCadastrados.aspx?Cod=000000'>SME</a>): " + filas[feature.properties.Name.toUpperCase()][1];
-                              balao += "<br/> População de 0 a 4 anos (2014, <a href='http://produtos.seade.gov.br/produtos/distritos/index.php'>SEADE</a>): " + filas[feature.properties.Name.toUpperCase()][2];
+                              balao += "<br/> Tamanho da fila (2014, <a href='http://eolgerenciamento.prefeitura.sp.gov.br/se1426g/frmgerencial/ConsultaCandidatosCadastrados.aspx?Cod=000000' target='_blank'>SME</a>): " + filas[feature.properties.Name.toUpperCase()][1];
+                              balao += "<br/> População de 0 a 4 anos (2014, <a href='http://produtos.seade.gov.br/produtos/distritos/index.php' target='_blank'>SEADE</a>): " + filas[feature.properties.Name.toUpperCase()][2];
                               layer.bindPopup(balao);
                                 layer.on('mouseover', function (e) {
                                   this.openPopup();
