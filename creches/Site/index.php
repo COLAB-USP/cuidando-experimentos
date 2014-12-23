@@ -149,7 +149,7 @@
 
               </tr>
               <tr>
-		
+
                 <td scope="row" style="text-align: left; background-color: #FC4E2A"></td>
                 <td>Fila per capta do distrito <b>entre 30 e 40</b>.</td>
 		<td scope="row" style="text-align: left; background-color: #E31A1C"></td>
@@ -285,25 +285,32 @@
                                    d > 5   ? '#FED976' :
                                               '#FFEDA0';
                         }
+
+                        var fila_carregada = undefined;
                         function filaCSV(callback){
-                            var filas = {};
-                            $.ajax({
+                            if(fila_carregada)
+                              callback(fila_carregada);
+                            else{
+                              var filas = {};
+                              $.ajax({
                                 type: "GET",
                                 url: "data/filas.csv",
                                 dataType: "text",
                                 async: false,
                                 success: function(data) {
-                                    var creches = $.csv.toArrays(data);
+                                  var creches = $.csv.toArrays(data);
 
-                                    for(i = 1; i < creches.length; i++){
-                                      linha = creches[i].toString().split(",");
-                                      var distrito = linha[0];
-                                      var fila = linha[1];
-                                      filas[distrito] = [fila, linha[2], linha[3]];
-                                    }
-                                    callback(filas);
+                                  for(i = 1; i < creches.length; i++){
+                                    linha = creches[i].toString().split(",");
+                                    var distrito = linha[0];
+                                    var fila = linha[1];
+                                    filas[distrito] = [fila, linha[2], linha[3]];
                                   }
-                             });
+                                  fila_carregada = filas;
+                                  callback(filas);
+                                }
+                              });
+                            }
                         }
 
                         function style(feature) {
